@@ -20,7 +20,7 @@ describe('popover', () => {
   afterAll(async () => {
     await browser.close();
   });
-    test('should show popover on click', async () => {
+  test('should show popover on click', async () => {
     await page.goto(APP);
     const btn = await page.$('.btn');
     await btn.click();
