@@ -17,10 +17,13 @@ describe('popover', () => {
     page = await browser.newPage();
     await page.setViewport({ width, height });
   });
-  test('should show popover on click', async () => {
+  afterAll(async () => {
+    await browser.close();
+  });
+    test('should show popover on click', async () => {
     await page.goto(APP);
     const btn = await page.$('.btn');
-    btn.click();
-    await page.waitForSelector('.popover');
+    await btn.click();
+    await page.waitForSelector('.hidden');
   }, 10000);
 });
