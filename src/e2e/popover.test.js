@@ -7,7 +7,7 @@ describe('Popopers show/hide', () => {
   let browser = null;
   let page = null;
   let server = null;
-  const baseUrl = 'http://localhost:9000';
+  const baseUrl = 'http://localhost:8888/';
 
   beforeAll(async () => {
     server = fork(`${__dirname}/e2e.server.js`);
@@ -32,12 +32,11 @@ describe('Popopers show/hide', () => {
     server.kill();
     await browser.close();
   });
-  describe('Validate', () => {
-    test('Popovers show/hide', async () => {
-      await page.goto(baseUrl);
-      const button = await page.$('button');
-      button.click();
-      await page.waitForSelector('.hidden');
-    }); 
+
+  test('Popovers show/hide', async () => {  
+    await page.goto(baseUrl);
+    const button = await page.$$('button');
+    await page.click('button');
+    await page.waitForSelector('.hidden');
   });
-})
+});

@@ -11,7 +11,6 @@ export default class Popover {
     const form = document.createElement('form');
     form.classList.add('form');
     const btn = document.createElement('button');
-    btn.classList.add('btn');
     btn.innerText = this.buttonText;
     form.appendChild(btn);
     formWrapper.appendChild(form);
@@ -36,7 +35,7 @@ export default class Popover {
   }
 
   clickOnButton() {
-    const btn = document.querySelector('.btn');
+    const btn = document.querySelector('button');
     btn.addEventListener('click', (evt) => {
       evt.preventDefault();
       if (this.popover.classList.contains('hidden')) {
