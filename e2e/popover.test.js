@@ -33,10 +33,12 @@ describe('Popopers show/hide', () => {
     await browser.close();
   });
 
-  test('Popovers show/hide', async () => {  
-    await page.goto(baseUrl);
-    const button = await page.$$('button');
-    await page.click('button');
-    await page.waitForSelector('.hidden');
+  describe('validate form on error block', () => {
+    test('Popovers show/hide', async () => {
+      await page.goto(baseUrl);
+      const button = await page.$('button');
+      button.click();
+      await page.waitForSelector('.hidden');
+    });
   });
 });
