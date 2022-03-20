@@ -1,7 +1,7 @@
 import puppetteer from 'puppeteer';
 import { fork } from 'child_process';
 
-jest.setTimeout(15000); // default puppeteer timeout
+jest.setTimeout(30000); // default puppeteer timeout
 
 describe('Popopers show/hide', () => {
   let browser = null;
@@ -37,7 +37,7 @@ describe('Popopers show/hide', () => {
     test('Popovers show/hide', async () => {
       await page.goto(baseUrl);
       const button = await page.$('button');
-      button.click();
+      page.click('button');
       await page.waitForSelector('.hidden');
     });
   });
