@@ -1,13 +1,13 @@
 import puppetteer from 'puppeteer';
 import { fork } from 'child_process';
 
-jest.setTimeout(30000); // default puppeteer timeout
+jest.setTimeout(10000);
 
-describe('Popopers show/hide', () => {
+describe('valid error', () => {
   let browser = null;
   let page = null;
   let server = null;
-  const baseUrl = 'http://localhost:8888/';
+  const baseUrl = 'http://localhost:8080';
 
   beforeAll(async () => {
     server = fork(`${__dirname}/e2e.server.js`);
@@ -21,23 +21,22 @@ describe('Popopers show/hide', () => {
     });
 
     browser = await puppetteer.launch({
-      // headless: false, // show gui
-      // devtools: true, // show devTools
-      // slowMo: 250
+      headless: false, // show gui
+      slowMo: 250,
+      devtools: true, // show devTools
     });
     page = await browser.newPage();
   });
 
   afterAll(async () => {
-    server.kill();
     await browser.close();
+    server.kill();
   });
 
   describe('validate form on error block', () => {
-    test('Popovers show/hide', async () => {
+    test('should add valid', async () => {
       await page.goto(baseUrl);
-      const button = await page.$('button');
-      page.click('button');
+      await page.$eval('#btn', (elem) => elem.click());
       await page.waitForSelector('.hidden');
     });
   });

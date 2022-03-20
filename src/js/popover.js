@@ -12,6 +12,7 @@ export default class Popover {
     form.classList.add('form');
     const btn = document.createElement('button');
     btn.innerText = this.buttonText;
+    btn.id = 'btn';
     form.appendChild(btn);
     formWrapper.appendChild(form);
     document.querySelector('body').appendChild(formWrapper);
