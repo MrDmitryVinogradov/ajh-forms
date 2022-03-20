@@ -1,29 +1,43 @@
-import puppeteer from 'puppeteer';
+import puppetteer from 'puppeteer';
+import { fork } from 'child_process';
 
-jest.setTimeout(15000);
-describe('popover', () => {
-  const APP = 'http://localhost:9000/';
-  let page = null;
+jest.setTimeout(15000); // default puppeteer timeout
+
+describe('Popopers show/hide', () => {
   let browser = null;
-  const width = 1920;
-  const height = 1080;
+  let page = null;
+  let server = null;
+  const baseUrl = 'http://localhost:9000';
 
   beforeAll(async () => {
-    browser = await puppeteer.launch({
-      // headless: false,
-      // slowMo: 250,
-      // args: [`--window-size=${width},${height}`],
+    server = fork(`${__dirname}/e2e.server.js`);
+    await new Promise((resolve, reject) => {
+      server.on('error', reject);
+      server.on('message', (message) => {
+        if (message === 'ok') {
+          resolve();
+        }
+      });
+    });
+
+    browser = await puppetteer.launch({
+      // headless: false, // show gui
+      // devtools: true, // show devTools
+      // slowMo: 250
     });
     page = await browser.newPage();
-    await page.setViewport({ width, height });
   });
+
   afterAll(async () => {
+    server.kill();
     await browser.close();
   });
-  test('should show popover on click', async () => {
-    await page.goto(APP);
-    const btn = await page.$('.btn');
-    await btn.click();
-    await page.waitForSelector('.hidden');
-  }, 10000);
-});
+  describe('Validate', () => {
+    test('Popovers show/hide', async () => {
+      await page.goto(baseUrl);
+      const button = await page.$('button');
+      button.click();
+      await page.waitForSelector('.hidden');
+    }); 
+  });
+})
